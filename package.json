@@ -4,17 +4,19 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "watch": "nodemon db",
+    "watch": "nodemon db --ignore frontend-js --ignore public/ & webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^3.2.0",
+    "dompurify": "^2.0.8",
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
@@ -25,5 +27,12 @@
     "nodemon": "^2.0.2",
     "sanitize-html": "^1.22.1",
     "validator": "^12.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }

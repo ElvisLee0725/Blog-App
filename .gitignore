@@ -1,5 +1,6 @@
 node_modules
 .env
+public/main-bundled.js
 
 .DS_Store
 .vscode
