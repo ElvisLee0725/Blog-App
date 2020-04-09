@@ -5,6 +5,7 @@ export default class Search {
     // Select DOM elements and keep track of data
     constructor() {
         this.injectHTML();
+        this._csrf = document.querySelector('[name="_csrf"]').value;
         this.domElements = {
             headerSearchIcon: document.querySelector('.header-search-icon'),
             overlay: document.querySelector('.search-overlay'),
@@ -49,9 +50,11 @@ export default class Search {
     }
 
     sendRequest() {
-      axios.post('/search', { searchTerm: this.domElements.inputField.value })
+      axios.post('/search', { 
+          _csrf: this._csrf,
+          searchTerm: this.domElements.inputField.value 
+        })
         .then((response) => {
-          console.log(response.data);
           this.renderResultsHTML(response.data);
         })
         .catch(() => {

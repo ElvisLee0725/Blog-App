@@ -1,4 +1,6 @@
 const postsCollection = require('../db').db().collection("posts");
+const followsCollection = require('../db').db().collection("follows");
+
 const ObjectID = require('mongodb').ObjectID;
 const User = require('./User');
 const sanitizeHTML = require('sanitize-html');
@@ -109,11 +111,11 @@ Post.reusablePostQuery = function(uniqueOperations, visitorId) {
             },
             {
                 $project: {     // Project the result to this object format
-                    title: 1,
-                    body: 1,
-                    createdDate: 1,
+                    title: 1,   // true
+                    body: 1,    // true
+                    createdDate: 1, // true
                     authorId: "$author",
-                    author: {   // Modify the author property
+                    author: {   // Modify the author property to point to 1st item in $authorDocument
                         $arrayElemAt: ["$authorDocument", 0]
                     }
                 }
@@ -216,6 +218,37 @@ Post.search = function(searchTerm) {
             reject();
         }
     });
+}
+
+Post.countPostsByAuthor = function(id) {
+    return new Promise(async (resolve, reject) => {
+        // Use countDocuments() to count numbers of a match
+        let postCount = await postsCollection.countDocuments({ author: id });
+        resolve(postCount);
+    });
+}
+
+Post.getFeed = async function(id) {
+    // Get an array of user ids that the cur user follows
+    let followedUsers = await followsCollection.find({ authorId: new ObjectID(id) }).toArray();
+    followedUsers = followedUsers.map((follow) => {
+        return follow.followedId
+    });
+    // Look for posts made by those followed users
+    return Post.reusablePostQuery([
+        {
+            $match: {
+                author: {
+                        $in: followedUsers  // Provide an array
+                }
+            }
+        }, 
+        {
+            $sort: {
+                createdDate: -1     // Make the latest first
+            }
+        }
+    ])
 }
 
 module.exports = Post;

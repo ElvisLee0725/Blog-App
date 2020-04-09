@@ -17,10 +17,21 @@ exports.create = (req, res) => {
         });
 }
 
+exports.apiCreate = (req, res) => {
+    let post = new Post(req.body, req.apiUser._id);
+    post.create()
+        .then((newId) => {
+            res.json("Congrats, the post is successful.")
+        })
+        .catch((errors) => {
+            res.json(errors);
+        });
+}
+
 exports.viewSingle = async (req, res) => {
     try {
         const post = await Post.findSingleById(req.params.id, req.visitorId);
-        res.render('single-post-screen', { post });
+        res.render('single-post-screen', { post , title: post.title });
     }
     catch {
         res.render('404');
@@ -85,6 +96,16 @@ exports.delete = (req, res) => {
             req.session.save(() => {
                 res.redirect('/');
             });
+        });
+}
+
+exports.apiDelete = (req, res) => {
+    Post.delete(req.params.id, req.apiUser._id)
+        .then(() => {
+            res.json("The post is deleted successfully.");
+        })
+        .catch(() => {
+            res.json("You do not have the permission to delete this post.");
         });
 }
 
