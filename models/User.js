@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const usersCollection = require('../db').db().collection('users');
 const validator = require('validator');
 const md5 = require('md5');
+const ObjectID = require('mongodb').ObjectID;
 
 class User {
     // If getAvatar is true, it will automatically get avatar
@@ -183,6 +184,19 @@ User.doesEmailExist = function(email) {
         else {
             // Email does not exist
             resolve(false);
+        }
+    });
+}
+
+// Find Username by userId
+User.findUsernameById = function(id) {
+    return new Promise(async (resolve, reject) => {
+        const user = await usersCollection.findOne({ _id: new ObjectID(id)});
+        if(user) {
+            resolve(user.username);
+        }
+        else {
+            resolve("Anonymous");
         }
     });
 }

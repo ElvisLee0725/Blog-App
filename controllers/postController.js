@@ -1,4 +1,7 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
+const sendgrid = require('@sendgrid/mail');
+sendgrid.setApiKey(process.env.SENDGRIDAPIKEY);
 
 exports.viewCreateScreen = (req, res) => {
     res.render('create-post');
@@ -7,7 +10,22 @@ exports.viewCreateScreen = (req, res) => {
 exports.create = (req, res) => {
     let post = new Post(req.body, req.session.user._id);
     post.create()
-        .then((newId) => {
+        .then(async (newId) => {
+            // Get the username of the new post, then send email to website owner to notify a new post using SendGrid:
+            try {
+                const username = await User.findUsernameById(post.data.author);
+                await sendgrid.send({
+                    to: 'elvislee0725@gmail.com',
+                    from: 'elvis0725@hotmail.com',
+                    subject: 'You have a new post on Blog App',
+                    text: `Check out this new post ${post.data.title} by ${username}.`,
+                    html: `Check out this new post <em>"${post.data.title}"</em> by <strong>${username}</strong>.`
+                });
+            }
+            catch(err){
+                console.error(err.toString());
+            }
+            
             req.flash("success", "New post successfully created.");
             req.session.save(() => res.redirect(`/post/${newId}`));
         })
