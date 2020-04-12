@@ -19,7 +19,7 @@ exports.create = (req, res) => {
                     from: 'elvis0725@hotmail.com',
                     subject: 'You have a new post on Blog App',
                     text: `Check out this new post ${post.data.title} by ${username}.`,
-                    html: `Check out this new post <em>"${post.data.title}"</em> by <strong>${username}</strong>.`
+                    html: `Check out this new post <em><a href="${req.hostname}/post/${newId}" class="text-decoration-none">${post.data.title}</a></em> by <strong>${username}</strong>.`
                 });
             }
             catch(err){
