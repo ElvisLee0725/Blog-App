@@ -159,7 +159,7 @@ textarea.tall-textarea {
 }
 
 .search-overlay-icon {
-  color: #007bff;
+  color: #AD974F;
   font-size: 1.4rem;
   margin: 0;
   margin-right: 10px;
@@ -171,7 +171,7 @@ textarea.tall-textarea {
   font-size: 1.1rem;
   outline: none;
   flex: 1;
-  color: #007bff;
+  color: #AD974F;
 }
 
 .live-search-results {
@@ -207,7 +207,7 @@ textarea.tall-textarea {
   cursor: pointer;
   opacity: .75;
   line-height: 1;
-  color: #292929;
+  color: #EAEAEA;
 }
 
 @media (min-width: 700px) {
@@ -372,4 +372,18 @@ textarea.tall-textarea {
   border: none;
   outline: none;
   font-size: .75rem;
+}
+
+.btn-theme-color {
+  background-color: #AD974F;
+  color: #fff;
+}
+
+.btn-theme-color:hover {
+  background-color: #8E793E;
+  color: #fff;
+}
+
+.logo {
+  max-width: 16rem;
 }

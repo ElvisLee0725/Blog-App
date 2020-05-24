@@ -4,7 +4,7 @@
     <%- include('includes/flash') %>
     
     <% if(posts.length > 0) { %>
-      <h2 class="text-center mb-4">The Latest Posts From Those You Follow</h2>
+      <h2 class="text-center mb-4">Posts From People You Follow</h2>
       <div class="list-group"></div>
         <% posts.forEach((post) => { %>
           <a href="/post/<%= post._id %>" class="list-group-item list-group-item-action">
@@ -16,7 +16,8 @@
     <% } else { %>
       <div class="text-center">
         <h2>Hello <strong><%= user.username %></strong>, your feed is empty.</h2>
-        <p class="lead text-muted">Your feed displays the latest posts from the people you follow. If you don&rsquo;t have any friends to follow that&rsquo;s okay; you can use the &ldquo;Search&rdquo; feature in the top menu bar to find content written by people with similar interests and then follow them.</p>
+        <p class="lead text-muted">If your feed is empty that means you have no friends. Don't be sad, you can use &ldquo;Search&rdquo; to find any posts you are interested in. Then, follow the author so you can see his / her latest post.</p>
+        <p class="lead text-muted">You can go to &ldquo;Chat&rdquo; to broadcast to everyone online. Click &ldquo;My Profile&rdquo; to see all your posts, who you're following and who's stalking you!</p>
       </div>  
     <% } %>
   </div>
